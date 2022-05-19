@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/tomaskraus/my-rossum-app/issues"
   },
-  "homepage": "https://github.com/tomaskraus/my-rossum-app#readme"
+  "homepage": "https://github.com/tomaskraus/my-rossum-app#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
 }
