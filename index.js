@@ -2,6 +2,7 @@
  * main module 
  */
 
+require('dotenv').config();
 const http = require('http')
 const logger = require("./src/middlewares/logging")
 
