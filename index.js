@@ -2,18 +2,9 @@
  * main module 
  */
 
-
 const http = require('http')
-const winston = require('winston');
+const logger = require("./src/middlewares/logging")
 
-const logger = winston.createLogger({
-    level: 'debug',
-    format: winston.format.json(),
-    transports: [
-        new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
-        new winston.transports.File({ filename: 'logs/combined.log' }),
-    ],
-});
 
 try {
     const credentialsManager = require("./src/middlewares/rossum-credentials-manager").create(logger);
