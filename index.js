@@ -3,23 +3,35 @@
  */
 
 require('dotenv').config();
+
 const http = require('http')
 const logger = require("./src/middlewares/logging")
 
 
 try {
     const credentialsManager = require("./src/middlewares/rossum-credentials-manager").create(logger);
-    credentialsManager.getCredentials();
+
+
+    const rossumService = require("./src/services/rossum-service")
+        .create(credentialsManager.getCredentials(), logger)
 
 
     const port = process.env.PORT || 3000
 
     const server = http.createServer((req, res) => {
-        res.statusCode = 200
-        logger.debug("hit")
-        res.setHeader('Content-Type', 'text/html')
-
-        res.end('<h1>Hello, World!</h1>')
+        
+        rossumService.getData(process.env.ROSSUM_QUEUE_ID, process.env.ROSSUM_ANNOTATION_ID)
+            .then(rRes => {
+                res.setHeader('Content-Type', 'application/json')
+                res.statusCode = rRes.status;
+                res.end(JSON.stringify(rRes.data));
+            })
+            .catch(err => {
+                console.log(err.response.data)
+                res.setHeader('Content-Type', 'text/html')
+                logger.error(err.response.data)
+                res.end(err.message);
+            });
 
     })
 
