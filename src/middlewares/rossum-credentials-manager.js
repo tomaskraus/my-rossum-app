@@ -22,6 +22,6 @@ const create = logger => {
     }
 }
 
-module.exports ={
+module.exports = {
     create,
 }
