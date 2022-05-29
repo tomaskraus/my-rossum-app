@@ -5,7 +5,17 @@ A simple app that uses the Rossum API
 
 Part of Node.js developer hiring process is a requirement to create a simple web app that uses the Rossum API. 
 
-## Useful Links
+The task description can be found [here](https://docs.google.com/document/d/1qIeffRqRqgc4kvGC0XvwfA-t_qtGAGXsxxGAjFMv7oU)
+
+## My approach
+
+- keep it simple, yet organized
+- use linter, formatter & follow naming conventions
+- use github-flow, pull-requests & link with issues
+- involve a bit of functional programming
+
+
+## References
 
 - https://githubflow.github.io/
 - https://blog.logrocket.com/organizing-express-js-project-structure-better-productivity/
