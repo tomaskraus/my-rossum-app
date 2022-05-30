@@ -5,19 +5,16 @@
 require('dotenv').config()
 
 const logger = require('./src/middlewares/logging')
-
 const express = require('express')
-
 const app = express()
 
 try {
   const credentialsManager = require('./src/middlewares/rossum-credentials-manager').create(logger)
-
   const rossumService = require('./src/services/rossum-service')
     .create(credentialsManager.getCredentials(), logger)
 
-  app.get('/', (req, res) => {
-    rossumService.getData(process.env.ROSSUM_QUEUE_ID, process.env.ROSSUM_ANNOTATION_ID)
+  app.get('/export/:queueid/annotations/:annotationid', (req, res) => {
+    rossumService.getData(req.params.queueid, req.params.annotationid)
       .then(rRes => {
         res.setHeader('Content-Type', 'application/json')
         res.statusCode = rRes.status
