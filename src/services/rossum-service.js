@@ -16,6 +16,20 @@ const create = (credentials, logger) => {
 
   return {
 
+    getSafeErrorResponseData: (axiosErr) => {
+      if (axiosErr.response !== undefined) {
+        return axiosErr.response.data
+      }
+      return axiosErr.message
+    },
+
+    getSafeShortErrorResponse: (axiosErr) => {
+      if (axiosErr.response !== undefined) {
+        return `${axiosErr.message} ; ${axiosErr.response.data.detail}`
+      }
+      return axiosErr.message
+    },
+
     /**
      * gets the Rossum's annotation data
      */
