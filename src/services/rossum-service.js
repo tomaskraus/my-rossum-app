@@ -17,7 +17,7 @@ const create = (credentials, logger) => {
   return {
 
     /**
-     * gets the annotation data
+     * gets the Rossum's annotation data
      */
     getAnnotationData: (queueId, annotationId) => {
       logger.debug(`getData: getting data for queueId: [${queueId}], annotoationId: [${annotationId}]`)
