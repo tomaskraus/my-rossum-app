@@ -21,10 +21,13 @@ try {
         res.end(JSON.stringify(rRes.data))
       })
       .catch(err => {
-        console.log(err.response.data)
-        res.setHeader('Content-Type', 'text/html')
-        logger.error(err.response.data)
-        res.end(err.message)
+        logger.error(rossumService.getSafeErrorResponseData(err))
+        res.setHeader('Content-Type', 'application/json')
+        res.end(JSON.stringify({
+          success: false,
+          message: rossumService.getSafeShortErrorResponse(err)
+        }
+        ))
       })
   })
 
