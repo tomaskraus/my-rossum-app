@@ -9,6 +9,10 @@ const _ROSSUM_REQUEST_CONFIG = {
 }
 
 const create = (credentials, logger) => {
+  const authData = {
+    username: credentials.username,
+    password: credentials.password
+  }
   return {
 
     getData: (queueId, annotationId) => {
@@ -16,10 +20,7 @@ const create = (credentials, logger) => {
         .request({
           ..._ROSSUM_REQUEST_CONFIG,
           url: `/v1/queues/${queueId}/export`,
-          auth: {
-            username: credentials.username,
-            password: credentials.password
-          },
+          auth: authData,
           method: 'get',
           params: {
             format: 'json',
