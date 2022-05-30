@@ -13,9 +13,14 @@ const create = (credentials, logger) => {
     username: credentials.username,
     password: credentials.password
   }
+
   return {
 
+    /**
+     * gets the annotation data
+     */
     getData: (queueId, annotationId) => {
+      logger.debug(`getData: getting data for queueId: [${queueId}], annotoationId: [${annotationId}]`)
       return axios
         .request({
           ..._ROSSUM_REQUEST_CONFIG,
@@ -26,7 +31,6 @@ const create = (credentials, logger) => {
             format: 'json',
             id: annotationId
           }
-
         })
     }
 
