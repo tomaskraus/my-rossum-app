@@ -49,8 +49,7 @@ failure:
 Those are my-rossum-app driven response status codes:
 
 - 200: Inputs are ok and my-rossum-app works well.\
- However, 3rd party systems may not work properly. If so, in the response body json, the "success" fields is set to "false", and the "message" json field contains a brief description of the failure.
-- 404: queue and/or annotation is not found
+ However, a rossum-service can return a non-success code, for whatever reason. If so, in the response body json, the "success" fields is set to "false", and the "message" json field contains a brief description of the failure.
 - 401: user is not authenticated to view the content
 
 ## References
