@@ -14,7 +14,7 @@ try {
     .create(credentialsManager.getCredentials(), logger)
 
   app.get('/export/:queueid/annotations/:annotationid', (req, res) => {
-    rossumService.getData(req.params.queueid, req.params.annotationid)
+    rossumService.getAnnotationData(req.params.queueid, req.params.annotationid)
       .then(rRes => {
         res.setHeader('Content-Type', 'application/json')
         res.statusCode = rRes.status

@@ -19,7 +19,7 @@ const create = (credentials, logger) => {
     /**
      * gets the annotation data
      */
-    getData: (queueId, annotationId) => {
+    getAnnotationData: (queueId, annotationId) => {
       logger.debug(`getData: getting data for queueId: [${queueId}], annotoationId: [${annotationId}]`)
       return axios
         .request({
