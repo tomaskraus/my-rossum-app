@@ -14,11 +14,49 @@ The task description can be found [here](https://docs.google.com/document/d/1qIe
 - use github-flow, pull-requests & link with issues
 - involve a bit of functional programming
 
+## My solution
+
+#### endpoint:
+
+/export/{queue_id}/annotations/{annotation_id}
+
+where:
+- queue_id is a quue identifier
+- annotation_id is an annotation identifier
+
+#### method:
+
+GET
+
+#### response body:
+success:
+```json
+{
+    "success": true,
+    "content": "base64string"
+}
+```
+failure:
+```json
+{
+    "success": false,
+    "message": "failure description"
+}
+```
+
+#### response status codes:
+
+Those are my-rossum-app driven response status codes:
+
+- 200: Inputs are ok and my-rossum-app works well.\
+ However, a rossum-service can return a non-success code, for whatever reason. If so, in the response body json, the "success" fields is set to "false", and the "message" json field contains a brief description of the failure.
+- 401: user is not authenticated to view the content
 
 ## References
 
 - https://githubflow.github.io/
 - https://blog.logrocket.com/organizing-express-js-project-structure-better-productivity/
+- https://stackoverflow.com/questions/4024271/rest-api-best-practices-where-to-put-parameters
 - https://blog.appsignal.com/2021/09/01/best-practices-for-logging-in-nodejs.html
 - https://stackoverflow.com/questions/38821947/how-does-a-node-js-server-compare-with-nginx-or-apache-servers
 
