@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npx nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx newman run test/functional/my-rossum-app.postman_collection.json -e test/functional/my-rossum-app-env.postman_environment.json"
   },
   "repository": {
     "type": "git",

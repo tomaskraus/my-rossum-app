@@ -16,6 +16,8 @@ The task description can be found [here](https://docs.google.com/document/d/1qIe
 
 ## My solution
 
+### API
+
 #### endpoint:
 
 /export/{queue_id}/annotations/{annotation_id}
@@ -51,6 +53,26 @@ Those are my-rossum-app driven response status codes:
 - 200: Inputs are ok and my-rossum-app works well.\
  However, a rossum-service can return a non-success code, for whatever reason. If so, in the response body json, the "success" fields is set to "false", and the "message" json field contains a brief description of the failure.
 - 401: user is not authenticated to view the content
+
+### Run
+
+To start the app, just run:
+
+```bash
+npm start
+```
+
+### Test
+
+To run app functional tests, do the following:
+
+1. Ensure the app is running
+
+2. Run the tests:
+    ```bash
+    npm tests
+    ```
+
 
 ## References
 
