@@ -16,18 +16,18 @@ const create = (credentials, logger) => {
 
   return {
 
-    getSafeErrorResponseData: (axiosErr) => {
-      if (axiosErr.response !== undefined) {
-        return axiosErr.response.data
+    getSafeErrorResponseData: (err) => {
+      if (err.response !== undefined) {
+        return err.response.data
       }
-      return axiosErr.message
+      return err.message
     },
 
-    getSafeShortErrorResponse: (axiosErr) => {
-      if (axiosErr.response !== undefined) {
-        return `${axiosErr.message} ; ${axiosErr.response.data.detail}`
+    getSafeShortErrorResponse: (err) => {
+      if (err.response !== undefined) {
+        return `${err.message} ; ${err.response.data.detail}`
       }
-      return axiosErr.message
+      return err.message
     },
 
     /**
