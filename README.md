@@ -70,7 +70,7 @@ To run app functional tests, do the following:
 
 2. Run the tests:
     ```bash
-    npm tests
+    npm test
     ```
 
 
