@@ -15,19 +15,20 @@ try {
 
   app.get('/export/:queueid/annotations/:annotationid', (req, res) => {
     rossumService.getAnnotationData(req.params.queueid, req.params.annotationid)
-      .then(rRes => {
+      .then(aDataRes => {
         res.setHeader('Content-Type', 'application/json')
-        res.statusCode = rRes.status
-        res.end(JSON.stringify(rRes.data))
+        res.statusCode = 200
+        res.end(JSON.stringify(aDataRes))
       })
       .catch(err => {
-        logger.error(rossumService.getSafeErrorResponseData(err))
+        logger.error(err.message)
+
         res.setHeader('Content-Type', 'application/json')
         res.end(JSON.stringify({
           success: false,
-          message: rossumService.getSafeShortErrorResponse(err)
-        }
-        ))
+          message: err.message
+        })
+        )
       })
   })
 

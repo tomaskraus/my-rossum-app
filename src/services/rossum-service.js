@@ -8,6 +8,33 @@ const _ROSSUM_REQUEST_CONFIG = {
   baseURL: 'https://elis.rossum.ai/api'
 }
 
+const _formatErrStr = (errStr, methodName) => {
+  if (methodName) {
+    return `[${methodName}]: ${errStr}`
+  }
+  return errStr
+}
+
+const getSafeErrorResponseData = (err, methodName = '') => {
+  if (err.response !== undefined) {
+    return err.response.data
+  }
+  return _formatErrStr(err.message, methodName)
+}
+
+const getSafeShortErrorResponse = (err, methodName = '') => {
+  if (err.response !== undefined) {
+    return `${err.message} ; ${err.response.data.detail}`
+  }
+  return _formatErrStr(err.message, methodName)
+}
+
+/**
+ *
+ * @param {object} credentials { username: string, password: string }
+ * @param {object} logger logger object with npm style logging levels methods
+ * @returns rossum service object
+ */
 const create = (credentials, logger) => {
   const authData = {
     username: credentials.username,
@@ -15,28 +42,15 @@ const create = (credentials, logger) => {
   }
 
   return {
-
-    getSafeErrorResponseData: (axiosErr) => {
-      if (axiosErr.response !== undefined) {
-        return axiosErr.response.data
-      }
-      return axiosErr.message
-    },
-
-    getSafeShortErrorResponse: (axiosErr) => {
-      if (axiosErr.response !== undefined) {
-        return `${axiosErr.message} ; ${axiosErr.response.data.detail}`
-      }
-      return axiosErr.message
-    },
-
     /**
      * gets the Rossum's annotation data
+     *
+     * (annotation[], err)
      */
     getAnnotationData: (queueId, annotationId) => {
-      logger.debug(`getData: getting data for queueId: [${queueId}], annotoationId: [${annotationId}]`)
-      return axios
-        .request({
+      logger.debug(`getAnnotationData: getting data for queueId: [${queueId}], annotoationId: [${annotationId}]`)
+      return new Promise((resolve, reject) => {
+        axios.request({
           ..._ROSSUM_REQUEST_CONFIG,
           url: `/v1/queues/${queueId}/export`,
           auth: authData,
@@ -46,11 +60,24 @@ const create = (credentials, logger) => {
             id: annotationId
           }
         })
+          .then(res => {
+            logger.silly(res)
+            logger.debug(`[${res.data.results.length}] result(s) found for queueId: [${queueId}], annotoationId: [${annotationId}]`)
+            resolve(res.data.results)
+          })
+          .catch(err => {
+            logger.silly(err)
+            logger.error(getSafeErrorResponseData(err), 'getAnnotationData')
+            reject(new Error(getSafeShortErrorResponse(err, 'getAnnotationData')))
+          })
+      })
     }
 
   }
 }
 
 module.exports = {
+  getSafeErrorResponseData,
+  getSafeShortErrorResponse,
   create
 }
