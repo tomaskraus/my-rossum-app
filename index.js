@@ -14,11 +14,11 @@ try {
     .create(credentialsManager.getCredentials(), logger)
 
   app.get('/export/:queueid/annotations/:annotationid', (req, res) => {
-    rossumService.getAnnotationData(req.params.queueid, req.params.annotationid)
-      .then(aDataRes => {
+    rossumService.getAnnotationXML(req.params.queueid, req.params.annotationid)
+      .then(xmlString => {
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/xml')
-        res.end(aDataRes)
+        res.end(xmlString)
       })
       .catch(err => {
         logger.error(err.message)

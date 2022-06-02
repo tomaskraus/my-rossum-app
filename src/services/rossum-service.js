@@ -43,11 +43,11 @@ const create = (credentials, logger) => {
 
   return {
     /**
-     * gets the Rossum's annotation data
+     * gets the Rossum's annotation data in the XML format
      *
-     * (annotation[], err)
+     * Promise(resolve(string), reject(Error))
      */
-    getAnnotationData: (queueId, annotationId) => {
+    getAnnotationXML: (queueId, annotationId) => {
       logger.debug(`getAnnotationData: getting data for queueId: [${queueId}], annotoationId: [${annotationId}]`)
       return new Promise((resolve, reject) => {
         axios.request({
