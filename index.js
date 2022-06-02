@@ -16,9 +16,9 @@ try {
   app.get('/export/:queueid/annotations/:annotationid', (req, res) => {
     rossumService.getAnnotationData(req.params.queueid, req.params.annotationid)
       .then(aDataRes => {
-        res.setHeader('Content-Type', 'application/json')
         res.statusCode = 200
-        res.end(JSON.stringify(aDataRes))
+        res.setHeader('Content-Type', 'application/xml')
+        res.end(aDataRes)
       })
       .catch(err => {
         logger.error(err.message)

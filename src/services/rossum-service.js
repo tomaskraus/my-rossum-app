@@ -56,14 +56,14 @@ const create = (credentials, logger) => {
           auth: authData,
           method: 'get',
           params: {
-            format: 'json',
+            format: 'xml',
             id: annotationId
           }
         })
           .then(res => {
             logger.silly(res)
-            logger.debug(`[${res.data.results.length}] result(s) found for queueId: [${queueId}], annotoationId: [${annotationId}]`)
-            resolve(res.data.results)
+            logger.debug(`data length: [${res.data.length}] for queueId: [${queueId}], annotoationId: [${annotationId}]`)
+            resolve(res.data)
           })
           .catch(err => {
             logger.silly(err)
