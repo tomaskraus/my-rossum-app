@@ -104,6 +104,55 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "export-nonexistent-annotation-id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"myRossumApp.expect200AndJsonWithFieldNamedSucces(pm);",
+											"",
+											"pm.test(\"JSON 'success' field is 'false'\", function () {",
+											"    pm.expect(pm.response.json().success).to.eql(false);",
+											"});",
+											"",
+											"pm.test(\"JSON 'message' field contains 'not found'\", function () {",
+											"    pm.expect(pm.response.json().message).to.contain('not found');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/export/{{queue_id_existent}}/annotations/{{annotation_id_nonexistent}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"export",
+										"{{queue_id_existent}}",
+										"annotations",
+										"{{annotation_id_nonexistent}}"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"auth": {
