@@ -12,18 +12,24 @@ try {
   const credentialsManager = require('./src/middlewares/rossum-credentials-manager').create(logger)
   const rossumService = require('./src/services/rossum-service')
     .create(credentialsManager.getCredentials(), logger)
+  const transformService = require('./src/services/transform-annotation-service').create(logger)
+  const uploadService = require('./src/services/upload-transformed-service').create(logger)
 
   app.get('/export/:queueid/annotations/:annotationid', (req, res) => {
-    logger.http(`endpoint: ${req.url}`)
+    logger.http(`== endpoint: ${req.url}`)
     rossumService.getAnnotationXML(req.params.queueid, req.params.annotationid)
-      .then(xmlString => {
-        res.statusCode = 200
-        res.setHeader('Content-Type', 'application/xml')
-        res.end(xmlString)
+      // .then(x => transformService.transformAnnotation(x))
+      .then(transformService.transformAnnotation)
+      .then(uploadService.uploadData)
+      .then(uploadStatus => {
+        res.setHeader('Content-Type', 'application/json')
+        res.end(JSON.stringify({
+          success: uploadStatus
+        })
+        )
       })
       .catch(err => {
         logger.error(err.message)
-
         res.setHeader('Content-Type', 'application/json')
         res.end(JSON.stringify({
           success: false,
