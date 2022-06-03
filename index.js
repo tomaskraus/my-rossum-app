@@ -14,6 +14,7 @@ try {
     .create(credentialsManager.getCredentials(), logger)
 
   app.get('/export/:queueid/annotations/:annotationid', (req, res) => {
+    logger.http(`endpoint: ${req.url}`)
     rossumService.getAnnotationXML(req.params.queueid, req.params.annotationid)
       .then(xmlString => {
         res.statusCode = 200
