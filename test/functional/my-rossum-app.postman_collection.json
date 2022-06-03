@@ -6,38 +6,201 @@
 	},
 	"item": [
 		{
-			"name": "Export",
+			"name": "export",
+			"item": [
+				{
+					"name": "export-with-auth",
+					"item": [
+						{
+							"name": "export-happy-day",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"myRossumApp.expect200AndJsonWithFieldNamedSucces(pm);",
+											"",
+											"pm.test(\"JSON 'success' field is 'true'\", function () {",
+											"    pm.expect(pm.response.json().success).to.eql(true);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/export/{{queue_id_existent}}/annotations/{{annotation_id_existent}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"export",
+										"{{queue_id_existent}}",
+										"annotations",
+										"{{annotation_id_existent}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "export-nonexistent-queue-id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"myRossumApp.expect200AndJsonWithFieldNamedSucces(pm);",
+											"",
+											"pm.test(\"JSON 'success' field is 'false'\", function () {",
+											"    pm.expect(pm.response.json().success).to.eql(false);",
+											"});",
+											"",
+											"pm.test(\"JSON 'message' field contains '404'\", function () {",
+											"    pm.expect(pm.response.json().message).to.contain('404');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/export/{{queue_id_nonexistent}}/annotations/{{annotation_id_existent}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"export",
+										"{{queue_id_nonexistent}}",
+										"annotations",
+										"{{annotation_id_existent}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "basic",
+						"basic": [
+							{
+								"key": "password",
+								"value": "{{password}}",
+								"type": "string"
+							},
+							{
+								"key": "username",
+								"value": "{{username}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			],
 			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							""
+						]
+					}
+				},
 				{
 					"listen": "test",
 					"script": {
+						"type": "text/javascript",
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
 							""
-						],
-						"type": "text/javascript"
+						]
 					}
 				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/export/{{queue_id_existent}}/annotations/{{annotation_id_existent}}",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"export",
-						"{{queue_id_existent}}",
-						"annotations",
-						"{{annotation_id_existent}}"
-					]
-				}
-			},
-			"response": []
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// console.log(`user name=${pm.environment.get(\"username\")}`)",
+					"",
+					"myRossumApp = {",
+					"    expect200AndJsonWithFieldNamedSucces: function(pm) {  ",
+					"        pm.test(\"Status code is 200\", function () {",
+					"            pm.expect(pm.response).to.have.status(200);",
+					"        });",
+					"        pm.test(\"Content-Type header is application/json\", function () {",
+					"            pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+					"        });",
+					"",
+					"        pm.test(\"JSON contains 'success' field\", function () {",
+					"            var jsonData = pm.response.json();",
+					"            pm.expect(jsonData).to.haveOwnProperty('success')",
+					"        });",
+					"    },",
+					"}",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
