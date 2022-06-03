@@ -48,7 +48,7 @@ const create = (credentials, logger) => {
      * Promise(resolve(string), reject(Error))
      */
     getAnnotationXML: (queueId, annotationId) => {
-      logger.debug(`getAnnotationData: getting data for queueId: [${queueId}], annotoationId: [${annotationId}]`)
+      logger.debug(`-- calling getAnnotationData: getting data for queueId: [${queueId}], annotoationId: [${annotationId}]`)
       return new Promise((resolve, reject) => {
         axios.request({
           ..._ROSSUM_REQUEST_CONFIG,
