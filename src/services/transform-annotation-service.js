@@ -13,8 +13,8 @@ const create = logger => {
       logger.debug('-- calling transformAnnotation')
       logger.silly(annotStr)
       return new Promise((resolve, reject) => {
-        // reject(new Error('[transformAnnotation]: XML transformation not implemented'))
-        resolve(annotStr)
+        reject(new Error('[transformAnnotation]: XML transformation not implemented'))
+        // resolve(annotStr)
       })
     }
   }
