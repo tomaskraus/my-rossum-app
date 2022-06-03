@@ -35,7 +35,7 @@ success:
 ```json
 {
     "success": true,
-    "content": "base64string"
+    "content": "base64-encoded XML string of transformed annotation"
 }
 ```
 failure:
@@ -43,6 +43,14 @@ failure:
 {
     "success": false,
     "message": "failure description"
+}
+```
+
+__Note__: there will be only "succes" field in the production app release:
+
+```json
+{
+    "success": true,
 }
 ```
 
