@@ -2,8 +2,6 @@
  * main module
  */
 
-require('dotenv').config()
-
 const logger = require('./src/middlewares/logging')
 const express = require('express')
 const app = express()

@@ -2,6 +2,7 @@
  * provides credentials
  */
 
+require('dotenv').config()
 const assert = require('node:assert/strict')
 
 const create = logger => {
