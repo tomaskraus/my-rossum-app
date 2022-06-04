@@ -1,5 +1,5 @@
 /**
- * provides credentials
+ * provides credentials to Rossum API
  */
 
 require('dotenv').config()
