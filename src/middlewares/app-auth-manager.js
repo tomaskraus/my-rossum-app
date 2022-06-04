@@ -31,7 +31,10 @@ const create = logger => {
      * returns Express request handler for user authorization
      */
     getRequestHandler: () => {
-      return basicAuth({ authorizer: customAuthorizer })
+      return basicAuth({
+        authorizer: customAuthorizer,
+        unauthorizedResponse: '401 Unauthorized'
+      })
     }
   }
 }
