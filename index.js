@@ -7,11 +7,14 @@ const express = require('express')
 const app = express()
 
 try {
+  const appAuthManager = require('./src/middlewares/app-auth-manager').create(logger)
   const credentialsManager = require('./src/middlewares/rossum-credentials-manager').create(logger)
   const rossumService = require('./src/services/rossum-service')
     .create(credentialsManager.getCredentials(), logger)
   const transformService = require('./src/services/transform-annotation-service').create(logger)
   const uploadService = require('./src/services/upload-transformed-service').create(logger)
+
+  app.use(appAuthManager.getRequestHandler())
 
   app.get('/export/:queueid/annotations/:annotationid', (req, res) => {
     logger.http(`== endpoint: ${req.url}`)
