@@ -386,7 +386,7 @@
 					"",
 					"myRossumApp = {",
 					"    expect401: function(pm) {",
-					"        pm.test(\"Status code is 401\", function(pm) {",
+					"        pm.test(\"Status code is 401\", function() {",
 					"            pm.expect(pm.response).to.have.status(401);",
 					"        })",
 					"    },",
