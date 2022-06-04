@@ -14,9 +14,9 @@ try {
   const transformService = require('./src/services/transform-annotation-service').create(logger)
   const uploadService = require('./src/services/upload-transformed-service').create(logger)
 
-  app.use(appAuthManager.getRequestHandler())
+  const authHandler = appAuthManager.getRequestHandler()
 
-  app.get('/export/:queueid/annotations/:annotationid', (req, res) => {
+  app.get('/export/:queueid/annotations/:annotationid', authHandler, (req, res) => {
     logger.http(`== endpoint: ${req.url}`)
     rossumService.getAnnotationXML(req.params.queueid, req.params.annotationid)
       // .then(x => transformService.transformAnnotation(x))
