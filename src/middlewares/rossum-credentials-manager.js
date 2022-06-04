@@ -17,7 +17,7 @@ const create = logger => {
       const password = process.env.ROSSUM_PASSWORD
       const credentials = { username, password }
 
-      logger.debug('Credentials sets successfully')
+      logger.debug('Rossum API credentials sets successfully')
       return credentials
     }
   }
