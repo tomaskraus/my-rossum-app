@@ -62,9 +62,11 @@ Those are my-rossum-app driven response status codes:
  However, a rossum-service can return a non-success code, for whatever reason. If so, in the response body json, the "success" fields is set to "false", and the "message" json field contains a brief description of the failure.
 - 401: user is not authenticated to view the content
 
-### Run
+### Application first-time setup
 
-To start the app, just run:
+read the `env.template` file for further instructions.
+
+### Run
 
 ```bash
 npm start
@@ -72,13 +74,18 @@ npm start
 
 ### Test
 
-To run app functional tests, do the following:
-
-1. Ensure the app is running
-
-2. Run the tests:
-    ```bash
+Run unit tests:
+```bash
     npm test
+```
+
+To run functional tests, do the following:
+
+1. Ensure the app is running.
+
+2. Run functional tests:
+    ```bash
+    npm run functional-test
     ```
 
 
