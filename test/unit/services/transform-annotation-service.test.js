@@ -7,8 +7,8 @@ const tas = require('./../../../src/services/transform-annotation-service').crea
 // const RESOURCE_LOCATION = './test/unit/resources/downloaded.xml'
 
 let INPUT_XML_STRING
-// let INPUT_XML_STRING_EMPTY
-let INVALID_XML_STRING
+let INPUT_XML_STRING_EMPTY
+let INPUT_XML_STRING_INVALID
 
 describe('XML tests', () => {
   beforeAll(() => {
@@ -112,7 +112,7 @@ Norway</datapoint>
   </pagination>
 </export>`
 
-    INVALID_XML_STRING =
+    INPUT_XML_STRING_INVALID =
     `<?xml version="1.0" encoding="UTF-8"?>
     <catalog>
       <cd>
@@ -140,9 +140,17 @@ Norway</datapoint>
 
   test('The well formed invalid xml input string throws an exception', () => {
     expect.assertions(1)
-    return tas.transformAnnotation(INVALID_XML_STRING) // INPUT_XML_STRING_EMPTY)
+    return tas.transformAnnotation(INPUT_XML_STRING_INVALID)
       .catch(err => {
         expect(err.message).toMatch('invalid')
+      })
+  })
+
+  test('Valid xml input string with no annotations throws an exception', () => {
+    expect.assertions(1)
+    return tas.transformAnnotation(INPUT_XML_STRING_EMPTY)
+      .catch(err => {
+        expect(err.message).toMatch('not found')
       })
   })
 })

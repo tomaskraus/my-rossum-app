@@ -60,9 +60,14 @@ const create = logger => {
           encoding: 'utf8'
         })
           .then(xml => {
-            const res = SaxonJS.XPath.evaluate('/export/results', xml)
-            if (res === null) {
+            // lightweight validity check (unlike the xsd validation)
+            const isResultsNodePresent = SaxonJS.XPath.evaluate('/export/results', xml)
+            if (isResultsNodePresent === null) {
               throw new Error('Well formed, invalid XML.')
+            }
+            const isAnnontationNodePresent = SaxonJS.XPath.evaluate('/export/results/annotation', xml)
+            if (isAnnontationNodePresent === null) {
+              throw new Error('XML contains no Annotation node. Annotation not found.')
             }
             resolve(DUMMY_DATA)
           })
@@ -70,10 +75,6 @@ const create = logger => {
             logger.error(err)
             reject(err)
           })
-        // if (!annotStr) {
-        //   reject(new Error('[transformAnnotation]: XML transformation not implemented'))
-        // }
-        // resolve(DUMMY_DATA)
       })
     }
   }
