@@ -7,6 +7,8 @@ const tas = require('./../../../src/services/transform-annotation-service').crea
 // const RESOURCE_LOCATION = './test/unit/resources/downloaded.xml'
 
 let INPUT_XML_STRING
+// let INPUT_XML_STRING_EMPTY
+let INVALID_XML_STRING
 
 describe('XML tests', () => {
   beforeAll(() => {
@@ -97,6 +99,27 @@ Norway</datapoint>
         <total_pages>1</total_pages>
     </pagination>
 </export>`
+
+    INPUT_XML_STRING_EMPTY =
+      `<?xml version="1.0" encoding="utf-8"?>
+<export>
+  <results></results>
+  <pagination>
+    <next></next>
+    <previous></previous>
+    <total>0</total>
+    <total_pages>1</total_pages>
+  </pagination>
+</export>`
+
+    INVALID_XML_STRING =
+    `<?xml version="1.0" encoding="UTF-8"?>
+    <catalog>
+      <cd>
+        <title>ABC</title>
+        <price>10.90</price>
+      </cd>
+      </catalog>`
   })
 
   test('The input xml string is a valid xml, with a "datapoint" element with "schema_id" attribute with value "document_id".', () => {
@@ -113,5 +136,13 @@ Norway</datapoint>
       expect(nodes[0].firstChild.data).not.toBeNull()
       expect(nodes[0].firstChild.data).toBe('143453775')
     })
+  })
+
+  test('The well formed invalid xml input string throws an exception', () => {
+    expect.assertions(1)
+    return tas.transformAnnotation(INVALID_XML_STRING) // INPUT_XML_STRING_EMPTY)
+      .catch(err => {
+        expect(err.message).toMatch('invalid')
+      })
   })
 })

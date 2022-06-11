@@ -2,8 +2,10 @@
  * transforms annotation's data
  */
 
+const SaxonJS = require('saxon-js')
+
 const DUMMY_DATA =
-`<?xml version="1.0" encoding="utf-8"?>
+  `<?xml version="1.0" encoding="utf-8"?>
 <InvoiceRegisters>
   <Invoices>
     <Payable>
@@ -52,8 +54,26 @@ const create = logger => {
       logger.debug('-- calling transformAnnotation')
       logger.silly(annotStr)
       return new Promise((resolve, reject) => {
-        // reject(new Error('[transformAnnotation]: XML transformation not implemented'))
-        resolve(DUMMY_DATA)
+        SaxonJS.getResource({
+          text: annotStr,
+          type: 'xml',
+          encoding: 'utf8'
+        })
+          .then(xml => {
+            const res = SaxonJS.XPath.evaluate('/export/results', xml)
+            if (res === null) {
+              throw new Error('Well formed, invalid XML.')
+            }
+            resolve(DUMMY_DATA)
+          })
+          .catch(err => {
+            logger.error(err)
+            reject(err)
+          })
+        // if (!annotStr) {
+        //   reject(new Error('[transformAnnotation]: XML transformation not implemented'))
+        // }
+        // resolve(DUMMY_DATA)
       })
     }
   }
