@@ -46,7 +46,7 @@ const create = logger => {
     /**
      *
      * @param {string} annotStr annotation XML string
-     * @returns {string} transformed annotation
+     * @returns {Promise<string>} Promise with transformed annotation
      */
     transformAnnotation: (annotStr) => {
       logger.debug('-- calling transformAnnotation')
