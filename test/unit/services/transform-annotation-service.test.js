@@ -129,7 +129,7 @@ Norway</datapoint>
     expect(nodes[0].firstChild.data).toBe('143453775')
   })
 
-  test('Transformed document contains an "invoiceNumber" element, with a value that matches the value of "//datapoint[@schema_id=\'invoice_id\']" of input xml.', () => {
+  test('Transformed document contains an "invoiceNumber" element, with a value that matches the value of "//datapoint[@schema_id=\'invoice_id\']" of the input xml.', () => {
     return tas.transformAnnotation(INPUT_XML_STRING).then(data => {
       const doc = new Dom().parseFromString(data)
       const nodes = xpath.select('/InvoiceRegisters/Invoices/Payable/InvoiceNumber', doc)
@@ -138,7 +138,7 @@ Norway</datapoint>
     })
   })
 
-  test('The well formed invalid xml input string throws an exception', () => {
+  test('Well formed, invalid xml input string throws an exception', () => {
     expect.assertions(1)
     return tas.transformAnnotation(INPUT_XML_STRING_INVALID)
       .catch(err => {
