@@ -104,6 +104,10 @@ Norway</datapoint>
     expect(xh.valueOf("/export/results/annotation/content/section/datapoint[@schema_id='invoice_id']")).toEqual('143453775')
   })
 
+  test('The "ValueOf" method works with empty node values', () => {
+    expect(xh.valueOf('//pagination/next')).toBeNull()
+  })
+
   test('The "ValueOf" method also works with atomic values', () => {
     expect(xh.valueOf('string(//pagination/total)')).toEqual('1')
   })
