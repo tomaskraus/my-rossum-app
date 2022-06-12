@@ -47,10 +47,7 @@ const create = (xmlString) => {
     valueOf: (xpathExpressionStr, contextNode = doc) => {
       const val = result(xpathExpressionStr, contextNode)
       if (typeof val === 'object') {
-        if (typeof val[0] !== 'undefined') {
-          return val[0].firstChild.data
-        }
-        return val.firstChild.data
+        return val[0].firstChild.data
       }
       return val
     }
