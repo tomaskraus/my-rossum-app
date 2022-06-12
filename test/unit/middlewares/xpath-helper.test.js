@@ -115,7 +115,7 @@ Norway</datapoint>
   })
 
   test('Context node works.', () => {
-    const ctx = doc.result('/export/results/annotation')[0]
+    const ctx = doc.context('/export/results/annotation')
 
     expect(doc.exists('./status')).toEqual(false)
     expect(doc.exists('./status', ctx)).toEqual(true)

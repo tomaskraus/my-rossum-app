@@ -11,22 +11,33 @@ const xpath = require('xpath')
  */
 const create = (xmlString) => {
   const doc = new Dom().parseFromString(xmlString)
-  /**
+
+  const result = (xpathExpressionStr, contextNode = doc) => xpath.select(xpathExpressionStr, contextNode)
+
+  return {
+    /**
    * @param {string} xpathExpressionStr A valid XPath expression.
    * @param {*} contextNode Optional. If specified, is used as the context node for evaluating the XPath expression.
    * @returns {*} A result of that XPath expression. It can be an array of nodes, single node, boolean, number, string...
    * Exactly what an xpath.select returns. See the 'xpath' npm package.
    */
-  const result = (xpathExpressionStr, contextNode = doc) => xpath.select(xpathExpressionStr, contextNode)
-
-  return {
     result,
+
+    /**
+   * @param {string} xpathExpressionStr A valid XPath expression.
+   * @param {*} contextNode Optional. If specified, is used as the context node for evaluating the XPath expression.
+   * @returns {*} A context node of that XPath expression.
+   * Note: can return unexpected result if the XPath expression does not return a node-like value.
+   */
+    context: (xpathExpressionStr, contextNode = doc) => result(xpathExpressionStr, contextNode)[0],
+
     /**
      * @param {string} xpathExpressionStr A valid XPath expression.
      * @param {*} contextNode Optional. If specified, is used as the context node for evaluating the XPath expression.
      * @returns {boolean} true, if such node exists. False otherwise.
      */
     exists: (xpathExpressionStr, contextNode = doc) => result(xpathExpressionStr, contextNode).length > 0,
+
     /**
      * @param {string} xpathExpressionStr A valid XPath node selection expression.
      * @param {*} contextNode Optional. If specified, is used as the context node for evaluating the XPath expression.
