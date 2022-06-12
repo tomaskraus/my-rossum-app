@@ -6,8 +6,9 @@
   "scripts": {
     "start": "npx nodemon index.js",
     "test": "jest",
+    "functional-test": "npx newman run test/functional/my-rossum-app.postman_collection.json -e test/functional/my-rossum-app-env.postman_environment.json",
     "coverage": "jest --coverage",
-    "functional-test": "npx newman run test/functional/my-rossum-app.postman_collection.json -e test/functional/my-rossum-app-env.postman_environment.json"
+    "compile-xsl": "npx xslt3 -xsl:src/resources/transformations/transform-annotation.xsl -export:src/resources/transformations/transform-annotation.sef.json -t -nogo"
   },
   "repository": {
     "type": "git",
