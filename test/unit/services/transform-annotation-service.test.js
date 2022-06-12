@@ -133,7 +133,7 @@ Norway</datapoint>
     })
   })
 
-  test('All the output xml structure is valid, with the right data values.', () => {
+  test('Contains all the required nodes, with the right data values.', () => {
     return tas.transformAnnotation(INPUT_XML_STRING).then(xmlString => {
       const xh = xpathHelper.create(xmlString)
       const payable = xh.context('/InvoiceRegisters/Invoices/Payable')
