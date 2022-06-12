@@ -1,8 +1,6 @@
-const Dom = require('xmldom').DOMParser
-const xpath = require('xpath')
-
 const logger = require('./../../../src/middlewares/logging')
 const tas = require('./../../../src/services/transform-annotation-service').create(logger)
+const xpathHelper = require('../../../src/middlewares/xpath-helper')
 
 // const RESOURCE_LOCATION = './test/unit/resources/downloaded.xml'
 
@@ -123,18 +121,15 @@ Norway</datapoint>
   })
 
   test('The input xml string is a valid xml, with a "datapoint" element with "schema_id" attribute with value "document_id".', () => {
-    const doc = new Dom().parseFromString(INPUT_XML_STRING)
-    const nodes = xpath.select("/export/results/annotation/content/section/datapoint[@schema_id='invoice_id']", doc)
-    expect(nodes[0].firstChild.data).not.toBeNull()
-    expect(nodes[0].firstChild.data).toBe('143453775')
+    const doc = xpathHelper.create(INPUT_XML_STRING)
+    expect(doc.valueOf("/export/results/annotation/content/section/datapoint[@schema_id='invoice_id']")).toBe('143453775')
   })
 
   test('Transformed document contains an "invoiceNumber" element, with a value that matches the value of "//datapoint[@schema_id=\'invoice_id\']" of the input xml.', () => {
-    return tas.transformAnnotation(INPUT_XML_STRING).then(data => {
-      const doc = new Dom().parseFromString(data)
-      const nodes = xpath.select('/InvoiceRegisters/Invoices/Payable/InvoiceNumber', doc)
-      expect(nodes[0].firstChild.data).not.toBeNull()
-      expect(nodes[0].firstChild.data).toBe('143453775')
+    return tas.transformAnnotation(INPUT_XML_STRING).then(xmlString => {
+      const doc = xpathHelper.create(xmlString)
+      expect(doc.exists('/InvoiceRegisters/Invoices/Payable/InvoiceNumber')).toBeTruthy()
+      expect(doc.valueOf('/InvoiceRegisters/Invoices/Payable/InvoiceNumber')).toBe('143453775')
     })
   })
 
