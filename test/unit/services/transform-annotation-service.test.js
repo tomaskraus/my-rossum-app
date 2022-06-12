@@ -111,7 +111,7 @@ Norway</datapoint>
 </export>`
 
     INPUT_XML_STRING_INVALID =
-    `<?xml version="1.0" encoding="UTF-8"?>
+      `<?xml version="1.0" encoding="UTF-8"?>
     <catalog>
       <cd>
         <title>ABC</title>
@@ -121,15 +121,39 @@ Norway</datapoint>
   })
 
   test('The input xml string is a valid xml, with a "datapoint" element with "schema_id" attribute with value "document_id".', () => {
-    const doc = xpathHelper.create(INPUT_XML_STRING)
-    expect(doc.valueOf("/export/results/annotation/content/section/datapoint[@schema_id='invoice_id']")).toBe('143453775')
+    const xh = xpathHelper.create(INPUT_XML_STRING)
+    expect(xh.valueOf("/export/results/annotation/content/section/datapoint[@schema_id='invoice_id']")).toBe('143453775')
   })
 
   test('Transformed document contains an "invoiceNumber" element, with a value that matches the value of "//datapoint[@schema_id=\'invoice_id\']" of the input xml.', () => {
     return tas.transformAnnotation(INPUT_XML_STRING).then(xmlString => {
-      const doc = xpathHelper.create(xmlString)
-      expect(doc.exists('/InvoiceRegisters/Invoices/Payable/InvoiceNumber')).toBeTruthy()
-      expect(doc.valueOf('/InvoiceRegisters/Invoices/Payable/InvoiceNumber')).toBe('143453775')
+      const xh = xpathHelper.create(xmlString)
+      expect(xh.exists('/InvoiceRegisters/Invoices/Payable/InvoiceNumber')).toBeTruthy()
+      expect(xh.valueOf('/InvoiceRegisters/Invoices/Payable/InvoiceNumber')).toBe('143453775')
+    })
+  })
+
+  test('All the output xml structure is valid, with the right data values.', () => {
+    return tas.transformAnnotation(INPUT_XML_STRING).then(xmlString => {
+      const xh = xpathHelper.create(xmlString)
+      const payable = xh.context('/InvoiceRegisters/Invoices/Payable')
+      expect(xh.valueOf('./InvoiceNumber', payable)).toBe('143453775')
+      expect(xh.valueOf('./InvoiceDate', payable)).toBe('2019-03-01T00:00:00')
+      expect(xh.valueOf('./DueDate', payable)).toBe('2019-03-31T00:00:00')
+      expect(xh.valueOf('./TotalAmount', payable)).toBe('2706.00')
+      expect(xh.exists('./Notes', payable)).toBe(true)
+      expect(xh.valueOf('./Iban', payable)).toBe('NO6513425245230')
+      expect(xh.valueOf('./Amount', payable)).toBe('2595.76')
+      expect(xh.valueOf('./Currency', payable)).toBe('NOK')
+      expect(xh.valueOf('./Vendor', payable)).toBe('InfoNet Workshop')
+      expect(xh.valueOf('./VendorAddress', payable)).toBe('2423 KONGSVINGER Norway')
+
+      const details = xh.context('./Details', payable)
+      expect(xh.result('count(child::*)', details)).toEqual(3)
+      expect(xh.valueOf('./Detail[2]/Amount', details)).toEqual('8308.56')
+      expect(xh.exists('./Detail[2]/AccountId', details)).toEqual(true)
+      expect(xh.valueOf('./Detail[2]/Quantity', details)).toEqual('4')
+      expect(xh.valueOf('./Detail[2]/Notes', details)).toEqual('HP 11.6-inch HD WLED UWVA touchscreen display ass')
     })
   })
 
