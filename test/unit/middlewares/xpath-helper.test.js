@@ -1,7 +1,7 @@
 const xpathHelper = require('../../../src/middlewares/xpath-helper')
 
 let INPUT_XML_STRING
-let doc
+let xh
 
 describe('xpath-helper tests', () => {
   beforeAll(() => {
@@ -93,34 +93,34 @@ Norway</datapoint>
 </pagination>
 </export>`
 
-    doc = xpathHelper.create(INPUT_XML_STRING)
+    xh = xpathHelper.create(INPUT_XML_STRING)
   })
 
   test('The input xml string is a valid xml, with a "datapoint" element with "schema_id" attribute with value "document_id".', () => {
-    expect(doc.exists("/export/results/annotation/content/section/datapoint[@schema_id='invoice_id']")).toEqual(true)
+    expect(xh.exists("/export/results/annotation/content/section/datapoint[@schema_id='invoice_id']")).toEqual(true)
   })
 
   test('A "datapoint" element with "schema_id" attribute with value "document_id" contains an atomic value.', () => {
-    expect(doc.valueOf("/export/results/annotation/content/section/datapoint[@schema_id='invoice_id']")).toEqual('143453775')
+    expect(xh.valueOf("/export/results/annotation/content/section/datapoint[@schema_id='invoice_id']")).toEqual('143453775')
   })
 
   test('The input xml does not contain a "datapoint1" element".', () => {
-    expect(doc.exists('//datapoint1')).toEqual(false)
+    expect(xh.exists('//datapoint1')).toEqual(false)
   })
 
   test('The "dom" method returns a proper XML DOM object, for a non-atomic node.".', () => {
-    const nodes = doc.result("//datapoint[@schema_id='invoice_id']")
+    const nodes = xh.result("//datapoint[@schema_id='invoice_id']")
     expect(nodes[0].firstChild.data).not.toBeNull()
     expect(nodes[0].firstChild.data).toEqual('143453775')
   })
 
   test('Context node works.', () => {
-    const ctx = doc.context('/export/results/annotation')
+    const ctx = xh.context('/export/results/annotation')
 
-    expect(doc.exists('./status')).toEqual(false)
-    expect(doc.exists('./status', ctx)).toEqual(true)
+    expect(xh.exists('./status')).toEqual(false)
+    expect(xh.exists('./status', ctx)).toEqual(true)
 
-    expect(doc.valueOf('/export/results/annotation/status')).toEqual('exported')
-    expect(doc.valueOf('./status', ctx)).toEqual('exported')
+    expect(xh.valueOf('/export/results/annotation/status')).toEqual('exported')
+    expect(xh.valueOf('./status', ctx)).toEqual('exported')
   })
 })
