@@ -164,6 +164,13 @@ describe('XML tests', () => {
       expect(xh.valueOf('./Detail[2]/Quantity', details)).toEqual('4')
       expect(xh.valueOf('./Detail[2]/Notes', details)).toEqual('HP 11.6-inch HD WLED UWVA touchscreen display')
     })
+  })
+
+  test('A not-so-well-formed input string throws an exception', () => {
+    expect.assertions(1)
+    return tas.transformAnnotation('abcd')
+      .catch(err => {
+        expect(err.message).not.toBeUndefined()
       })
   })
 
