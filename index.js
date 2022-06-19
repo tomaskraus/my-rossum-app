@@ -12,7 +12,6 @@ try {
   const rossumService = require('./src/services/rossum-service')
     .create(credentialsManager.getCredentials(), logger)
   const transformService = require('./src/services/transform-annotation-service').create(logger)
-  // const uploadService = require('./src/services/upload-transformed-service').create(logger)
 
   const authHandler = appAuthManager.getRequestHandler()
 
@@ -20,7 +19,6 @@ try {
     logger.http(`== endpoint: ${req.url}`)
     rossumService.getAnnotationXML(req.params.queueid, req.params.annotationid)
       .then(transformService.transformAnnotation)
-      // .then(uploadService.uploadData)
       .then(xmlString => {
         res.setHeader('Content-Type', 'application/xml')
         res.end(xmlString)
