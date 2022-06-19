@@ -7,6 +7,8 @@ Part of Node.js developer hiring process is a requirement to create a simple web
 
 The task description can be found [here](https://docs.google.com/document/d/1qIeffRqRqgc4kvGC0XvwfA-t_qtGAGXsxxGAjFMv7oU)
 
+__Note__: I simplified the app, so that it responses with a transformed XML. The app also doesn't send that transformed XML elsewhere.
+
 ## My approach
 
 - keep it simple, yet organized
@@ -32,11 +34,8 @@ GET
 
 #### response body:
 success:
-```json
-{
-    "success": true,
-    "content": "base64-encoded XML string of transformed annotation"
-}
+```xml
+<?xml version="1.0" encoding="UTF-8"?><InvoiceRegisters><Invoices><Payable><InvoiceNumber>143453775</InvoiceNumber><InvoiceDate>2019-03-01T00:00:00</InvoiceDate><DueDate>2019-03-31T00:00:00</DueDate><TotalAmount>12978.81</TotalAmount><Notes/> ...
 ```
 failure:
 ```json
