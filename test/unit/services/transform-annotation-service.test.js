@@ -1,3 +1,5 @@
+// @ts-check
+
 const logger = require('./../../../src/middlewares/logging')
 const tas = require('./../../../src/services/transform-annotation-service').create(logger)
 const xpathHelper = require('../../../src/middlewares/xpath-helper')

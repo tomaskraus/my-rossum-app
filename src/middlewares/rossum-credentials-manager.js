@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * provides credentials to Rossum API
  */

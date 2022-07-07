@@ -1,8 +1,9 @@
+// @ts-check
 /**
  * interacts with a Rossum web API
  */
 
-const axios = require('axios')
+const axios = require('axios').default
 
 const _ROSSUM_REQUEST_CONFIG = {
   baseURL: 'https://elis.rossum.ai/api'

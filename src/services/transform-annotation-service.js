@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * transforms annotation's data
  */

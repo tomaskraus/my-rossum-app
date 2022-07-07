@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * provides credentials to this web app
  */
@@ -9,15 +10,18 @@ const basicAuth = require('express-basic-auth')
 
 const create = logger => {
   assert.notEqual(process.env.APP_USER_NAME, undefined, 'APP_USER_NAME env variable is mandatory to run this app')
-  const username = process.env.APP_USER_NAME
+  /** @type {string} */
+  const USER_NAME = process.env.APP_USER_NAME || ''
   assert.notEqual(process.env.APP_PASSWORD, undefined, 'APP_PASSWORD env variable is mandatory to run this app')
-  const password = process.env.APP_PASSWORD
+  /** @type {string} */
+  const PASSWORD = process.env.APP_PASSWORD || ''
   logger.debug('App credentials sets successfully')
 
+  /** @param {string} usrName */
   const customAuthorizer = (usrName, passw) => {
-    const userMatches = basicAuth.safeCompare(usrName, username)
-    const passwordMatches = basicAuth.safeCompare(passw, password)
-    if (userMatches & passwordMatches) {
+    const userMatches = basicAuth.safeCompare(usrName, USER_NAME)
+    const passwordMatches = basicAuth.safeCompare(passw, PASSWORD)
+    if (userMatches && passwordMatches) {
       logger.debug('AppAuthManager authorizer: credentials OK')
       return true
     }

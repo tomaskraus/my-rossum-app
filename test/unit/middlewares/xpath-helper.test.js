@@ -1,3 +1,5 @@
+// @ts-check
+
 const xpathHelper = require('../../../src/middlewares/xpath-helper')
 
 let INPUT_XML_STRING

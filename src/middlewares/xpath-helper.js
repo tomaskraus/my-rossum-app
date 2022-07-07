@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * eases the use of xpath (xml)
  **/
